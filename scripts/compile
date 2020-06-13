@@ -1,0 +1,26 @@
+#!/bin/bash
+
+app_name=brisk
+app_ns=${app_name}.main
+
+if [ -z "$NATIVE_IMAGE" ]; then
+    echo 'Please set $NATIVE_IMAGE'
+    exit 1
+fi
+
+rm -rf classes
+mkdir classes
+clojure -e "(compile '${app_ns})"
+
+$NATIVE_IMAGE \
+    -cp $(clojure -Spath):classes \
+    -H:Name=$app_name \
+    -H:+ReportExceptionStackTraces \
+    -H:ReflectionConfigurationFiles=reflection.json \
+    --initialize-at-build-time \
+    --report-unsupported-elements-at-runtime \
+    --verbose \
+    --no-fallback \
+    --no-server \
+    "-J-Xmx3g" \
+    ${app_ns}
