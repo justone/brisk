@@ -31,8 +31,8 @@
 (defn format-help
   [progname help parsed errors]
   (let [{:keys [summary]} parsed
-        {:keys [message exit]} errors]
-    {:help (format help-fmt progname (or message help) summary)
+        {:keys [message plain exit]} errors]
+    {:help (if plain message (format help-fmt progname (or message help) summary))
      :exit exit}))
 
 (defn print-and-exit

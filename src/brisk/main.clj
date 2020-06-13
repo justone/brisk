@@ -2,6 +2,7 @@
   (:require
     [clojure.edn :as edn]
     [clojure.java.io :as io]
+    [clojure.string :as string]
     [clojure.tools.cli :refer [parse-opts]]
 
     [taoensso.nippy :as nippy]
@@ -65,6 +66,7 @@
    ["-t" "--thaw" "Thaw mode"]
    ["-i" "--input FILENAME" "Input file"]
    ["-o" "--output FILENAME" "Output file"]
+   ["-v" "--version" "Print version"]
    ])
 
 (def help
@@ -81,6 +83,11 @@
   (or (opts/find-errors parsed)
       (let [{:keys [options]} parsed]
         (cond
+          (:version options)
+          {:message (string/trim (slurp (io/resource "VERSION")))
+           :plain true
+           :exit 0}
+
           (and (not (:thaw options)) (not (:freeze options)))
           {:exit 1}))))
 

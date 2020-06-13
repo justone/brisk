@@ -17,6 +17,7 @@ $NATIVE_IMAGE \
     -H:Name=$app_name \
     -H:+ReportExceptionStackTraces \
     -H:ReflectionConfigurationFiles=reflection.json \
+    -H:IncludeResources=VERSION \
     --initialize-at-build-time \
     --report-unsupported-elements-at-runtime \
     --verbose \
