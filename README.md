@@ -26,9 +26,25 @@ If input or output is not specified, stdin or stdout will be used:
 cat data.edn | brisk -f | brisk -t > data2.edn
 ```
 
-# To Do
+# [Babashka pod](https://github.com/babashka/babashka.pods) support
 
-* [Babashka pod](https://github.com/babashka/babashka.pods) support, exposing nippy functions.
+There are two functions exposed via the pod interface:
+
+* `(freeze-to-file filename data)` - returns the number of bytes written
+* `(thaw-from-file filename)` - returns data thawed from the file
+
+Example:
+
+```
+#!/usr/bin/env bb
+
+(require '[babashka.pods :as pods])
+(pods/load-pod "brisk")
+(require '[pod.brisk :as brisk])
+
+(brisk/freeze-to-file "pod.nippy" {:han :solo})
+(prn (brisk/thaw-from-file "pod.nippy"))
+```
 
 # Things that don't work
 

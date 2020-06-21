@@ -5,6 +5,7 @@
     [clojure.string :as string]
     [clojure.tools.cli :refer [parse-opts]]
 
+    [pod-racer.core :as pod]
     [taoensso.nippy :as nippy]
 
     [brisk.lib.opts :as opts]
@@ -91,12 +92,22 @@
           (and (not (:thaw options)) (not (:freeze options)))
           {:exit 1}))))
 
+(def pod-config
+  {:pod/namespaces
+   [{:pod/ns "pod.brisk"
+     :pod/vars [{:var/name "freeze-to-file"
+                 :var/fn #(count (nippy/freeze-to-file %1 %2))}
+                {:var/name "thaw-from-file"
+                 :var/fn nippy/thaw-from-file}]}]})
+
 (defn -main [& args]
   (let [parsed (parse-opts args cli-options)
         {:keys [options]} parsed]
-    (or (when-some [errors (find-errors parsed)]
-          (->> (opts/format-help progname help parsed errors)
-               (opts/print-and-exit)))
-        (cond
-          (:freeze options) (freeze options)
-          (:thaw options) (thaw options)))))
+    (if (System/getenv "BABASHKA_POD")
+      (pod/launch pod-config)
+      (or (when-some [errors (find-errors parsed)]
+            (->> (opts/format-help progname help parsed errors)
+                 (opts/print-and-exit)))
+          (cond
+            (:freeze options) (freeze options)
+            (:thaw options) (thaw options))))))
