@@ -46,6 +46,10 @@ Example:
 (prn (brisk/thaw-from-file "pod.nippy"))
 ```
 
+# Development
+
+Not quite ready yet. This depends on a soon-to-be-released library.
+
 # Things that don't work
 
 * Embedded objects - Nippy can handle them, but Graal VM does not support them.
