@@ -96,9 +96,9 @@
   {:pod/namespaces
    [{:pod/ns "pod.brisk"
      :pod/vars [{:var/name "freeze-to-file"
-                 :var/fn #(count (nippy/freeze-to-file %1 %2))}
+                 :var/fn #(count (apply nippy/freeze-to-file %&))}
                 {:var/name "thaw-from-file"
-                 :var/fn nippy/thaw-from-file}]}]})
+                 :var/fn #(apply nippy/thaw-from-file %&)}]}]})
 
 (defn -main [& args]
   (let [parsed (parse-opts args cli-options)

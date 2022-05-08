@@ -1,17 +1,24 @@
 {:aliases
  {:repl
   {:extra-paths ["dev"]
-   :extra-deps {cljdev {:git/url "https://github.com/justone/cljdev.git" :sha "0606399da2612346290c667faa1d1ac4a096e58d"}}
-   :main-opts  ["-m" "cljdev.repl"]}
+   :extra-deps {io.github.justone/cljdev {:git/sha "e3acb0fefcb3d97b70f4ef26c9064b18c73daa28"}}
+   :main-opts  ["-m" "cljdev.repl"]
+   :exec-fn cljdev.repl/start}
   :test
   {:extra-paths ["dev" "test"]
    :extra-deps {lambdaisland/kaocha {:mvn/version "1.0.632"}}
    :main-opts  ["-m" "kaocha.runner"]}}
 
  :deps
- {bb-pod-racer {:git/url "git@github.com:justone/bb-pod-racer.git"
-                :sha "7d7784a72324bf7e8ae0cca9ebc93dde24d92fb9"}
-  com.taoensso/nippy {:mvn/version "2.14.0"}
-  org.clojure/tools.cli {:mvn/version "1.0.194"}}
+ {org.clojure/tools.cli {:mvn/version "1.0.194"}
+  org.clojure/clojure {:mvn/version "1.11.1"}
+
+  com.taoensso/nippy {:mvn/version "3.1.1"}
+  io.github.justone/bb-pod-racer {:git/sha "7d7784a72324bf7e8ae0cca9ebc93dde24d92fb9"}
+  io.github.clj-easy/graal-build-time {:git/sha "b91cd78a977fdf81758705668f44b0d2ddad4bdc"}
+  io.github.clj-easy/graal-config-nippy {:git/url "https://github.com/clj-easy/graal-config"
+                                         :git/sha "0dc2862e1b1c9871eef4c306ef77da3610a2bd93"
+                                         :deps/root "config/com.taoensso/nippy"}
+  }
 
  :paths ["src" "resources"]}
