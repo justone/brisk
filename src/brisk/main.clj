@@ -70,15 +70,16 @@
 
 ;; Main
 
-(def cli-options
+(defn cli-options
+  [env]
   [["-h" "--help" "Show help"]
    ["-f" "--freeze" "Freeze mode"]
    ["-t" "--thaw" "Thaw mode"]
    ["-i" "--input FILENAME" "Input file"]
    [nil "--salted-password PASSWORD" "Salted password, for encryption."
-    :default (get (System/getenv) "BRISK_SALTED_PASSWORD")]
+    :default (get env "BRISK_SALTED_PASSWORD")]
    [nil "--cached-password PASSWORD" "Cached password, for encryption."
-    :default (get (System/getenv) "BRISK_CACHED_PASSWORD")]
+    :default (get env "BRISK_CACHED_PASSWORD")]
    ["-o" "--output FILENAME" "Output file"]
    ["-v" "--version" "Print version"]
    ])
@@ -114,7 +115,7 @@
                  :var/fn #(apply nippy/thaw-from-file %&)}]}]})
 
 (defn -main [& args]
-  (let [parsed (parse-opts args cli-options)
+  (let [parsed (parse-opts args (cli-options (System/getenv)))
         {:keys [options]} parsed]
     (if (System/getenv "BABASHKA_POD")
       (pod/launch pod-config)
