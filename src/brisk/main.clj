@@ -42,19 +42,28 @@
     (io/copy stream baos)
     (.toByteArray baos)))
 
+(defn nippy-opts
+  [options]
+  (let [{:keys [salted-password cached-password]} options]
+    (cond-> {}
+      salted-password (assoc :password [:salted salted-password])
+      cached-password (assoc :password [:cached cached-password]))))
+
 (defn freeze
   [options]
   (let [data (edn/read-string (slurp (get-source options)))
+        opts (nippy-opts options)
         out (get-output options)
-        frozen (nippy/freeze data)]
+        frozen (nippy/freeze data opts)]
     (io/copy frozen out)
     (.close ^OutputStream out)))
 
 (defn thaw
   [options]
   (let [in (bytes-from-stream (get-source options))
+        opts (nippy-opts options)
         out (io/writer (get-output options))
-        thawed (nippy/thaw in)]
+        thawed (nippy/thaw in opts)]
     (.write ^Writer out (pr-str thawed))
     (.close ^Writer out)))
 
@@ -66,6 +75,10 @@
    ["-f" "--freeze" "Freeze mode"]
    ["-t" "--thaw" "Thaw mode"]
    ["-i" "--input FILENAME" "Input file"]
+   [nil "--salted-password PASSWORD" "Salted password, for encryption."
+    :default (get (System/getenv) "BRISK_SALTED_PASSWORD")]
+   [nil "--cached-password PASSWORD" "Cached password, for encryption."
+    :default (get (System/getenv) "BRISK_CACHED_PASSWORD")]
    ["-o" "--output FILENAME" "Output file"]
    ["-v" "--version" "Print version"]
    ])
