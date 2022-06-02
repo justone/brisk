@@ -14,7 +14,7 @@
   org.clojure/tools.cli {:mvn/version "1.0.194"}
 
   com.taoensso/nippy {:mvn/version "3.1.1"}
-  io.github.clj-easy/graal-build-time {:git/sha "b91cd78a977fdf81758705668f44b0d2ddad4bdc"}
+  com.github.clj-easy/graal-build-time {:mvn/version "0.1.4"}
   io.github.clj-easy/graal-config-nippy {:git/url "https://github.com/clj-easy/graal-config"
                                          :git/sha "0dc2862e1b1c9871eef4c306ef77da3610a2bd93"
                                          :deps/root "config/com.taoensso/nippy"}

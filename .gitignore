@@ -14,5 +14,6 @@ pom.xml.asc
 .cpcache/
 .rebel_readline_history
 .socket-port
+brisk.build_artifacts.txt
 
 /brisk
