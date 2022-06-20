@@ -76,9 +76,9 @@
    ["-f" "--freeze" "Freeze mode"]
    ["-t" "--thaw" "Thaw mode"]
    ["-i" "--input FILENAME" "Input file"]
-   [nil "--salted-password PASSWORD" "Salted password, for encryption."
+   [nil "--salted-password PASSWORD" "Salted password, for encryption. Or use BRISK_SALTED_PASSWORD environment variable."
     :default (get env "BRISK_SALTED_PASSWORD")]
-   [nil "--cached-password PASSWORD" "Cached password, for encryption."
+   [nil "--cached-password PASSWORD" "Cached password, for encryption. Or use BRISK_CACHED_PASSWORD environment variable."
     :default (get env "BRISK_CACHED_PASSWORD")]
    ["-o" "--output FILENAME" "Output file"]
    ["-v" "--version" "Print version"]
