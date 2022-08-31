@@ -98,7 +98,11 @@
      :pod/vars [{:var/name "freeze-to-file"
                  :var/fn #(count (nippy/freeze-to-file %1 %2))}
                 {:var/name "thaw-from-file"
-                 :var/fn nippy/thaw-from-file}]}]})
+                 :var/fn nippy/thaw-from-file}
+                {:var/name "freeze-to-string"
+                 :var/fn nippy/freeze-to-string}
+                {:var/name "thaw-from-string"
+                 :var/fn nippy/thaw-from-string}]}]})
 
 (defn -main [& args]
   (let [parsed (parse-opts args cli-options)
