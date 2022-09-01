@@ -11,7 +11,7 @@
  :deps
  {bb-pod-racer {:git/url "git@github.com:justone/bb-pod-racer.git"
                 :sha "7d7784a72324bf7e8ae0cca9ebc93dde24d92fb9"}
-  com.taoensso/nippy {:mvn/version "2.14.0"}
+  com.taoensso/nippy {:mvn/version "3.2.0"}
   org.clojure/tools.cli {:mvn/version "1.0.194"}}
 
  :paths ["src" "resources"]}
