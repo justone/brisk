@@ -32,6 +32,8 @@ There are two functions exposed via the pod interface:
 
 * `(freeze-to-file filename data)` - returns the number of bytes written
 * `(thaw-from-file filename)` - returns data thawed from the file
+* `(freeze-to-string data)` - returns frozen data as an encoded string
+* `(thaw-from-string encoded)` - returns data thawed from the encoded string
 
 Example:
 
