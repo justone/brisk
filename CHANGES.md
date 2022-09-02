@@ -1,3 +1,10 @@
+# v0.2.1
+
+New Babashka pod functions:
+
+* `freeze-to-string`
+* `thaw-from-string`
+
 # v0.2.0
 
 Babashka pod support with the following functions:

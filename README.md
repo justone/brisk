@@ -51,6 +51,9 @@ There are four functions exposed via the pod interface:
 * `(thaw-from-file filename)` - returns data thawed from the file
 * `(thaw-from-file filename opts)` - returns data thawed from the file, with options
 
+* `(freeze-to-string data)` - returns frozen data as an encoded string
+* `(thaw-from-string encoded)` - returns data thawed from the encoded string
+
 Example:
 
 ```
