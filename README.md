@@ -47,12 +47,11 @@ environment variables.
 There are four functions exposed via the pod interface:
 
 * `(freeze-to-file filename data)` - freeze data to file, returns the number of bytes written
-* `(freeze-to-file filename data opts)` - freeze data to file, returns the number of bytes written, with options
 * `(thaw-from-file filename)` - returns data thawed from the file
-* `(thaw-from-file filename opts)` - returns data thawed from the file, with options
-
 * `(freeze-to-string data)` - returns frozen data as an encoded string
 * `(thaw-from-string encoded)` - returns data thawed from the encoded string
+
+Any of the above can take an additional argument with options. This can be used to encrypt the frozen data.
 
 Example:
 
@@ -66,8 +65,8 @@ Example:
 (brisk/freeze-to-file "pod.nippy" {:han :solo})
 (prn (brisk/thaw-from-file "pod.nippy"))
 
-(brisk/freeze-to-file "pod.nippy" {:han :solo} {:password [:cached "my-password"]})
-(prn (brisk/thaw-from-file "pod.nippy" {:password [:cached "my-password"]}))
+(brisk/freeze-to-file "pod.encrypted.nippy" {:han :solo} {:password [:cached "my-password"]})
+(prn (brisk/thaw-from-file "pod.encrypted.nippy" {:password [:cached "my-password"]}))
 ```
 
 # Development
