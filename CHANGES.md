@@ -1,3 +1,7 @@
+# v0.3.0
+
+Add encryption support for both CLI and Babashka pod.
+
 # v0.2.1
 
 New Babashka pod functions:
