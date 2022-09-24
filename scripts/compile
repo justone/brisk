@@ -21,5 +21,6 @@ $NATIVE_IMAGE \
     --verbose \
     --no-fallback \
     --no-server \
+    --static \
     "-J-Xmx3g" \
     ${app_ns}
