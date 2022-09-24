@@ -17,3 +17,5 @@ pom.xml.asc
 brisk.build_artifacts.txt
 
 /brisk
+test-cli.nippy
+test-pod.nippy
