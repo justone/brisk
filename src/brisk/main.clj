@@ -42,30 +42,44 @@
     (io/copy stream baos)
     (.toByteArray baos)))
 
+(defn nippy-opts
+  [options]
+  (let [{:keys [salted-password cached-password]} options]
+    (cond-> {}
+      salted-password (assoc :password [:salted salted-password])
+      cached-password (assoc :password [:cached cached-password]))))
+
 (defn freeze
   [options]
   (let [data (edn/read-string (slurp (get-source options)))
+        opts (nippy-opts options)
         out (get-output options)
-        frozen (nippy/freeze data)]
+        frozen (nippy/freeze data opts)]
     (io/copy frozen out)
     (.close ^OutputStream out)))
 
 (defn thaw
   [options]
   (let [in (bytes-from-stream (get-source options))
+        opts (nippy-opts options)
         out (io/writer (get-output options))
-        thawed (nippy/thaw in)]
+        thawed (nippy/thaw in opts)]
     (.write ^Writer out (pr-str thawed))
     (.close ^Writer out)))
 
 
 ;; Main
 
-(def cli-options
+(defn cli-options
+  [env]
   [["-h" "--help" "Show help"]
    ["-f" "--freeze" "Freeze mode"]
    ["-t" "--thaw" "Thaw mode"]
    ["-i" "--input FILENAME" "Input file"]
+   [nil "--salted-password PASSWORD" "Salted password, for encryption. Or use BRISK_SALTED_PASSWORD environment variable."
+    :default (get env "BRISK_SALTED_PASSWORD")]
+   [nil "--cached-password PASSWORD" "Cached password, for encryption. Or use BRISK_CACHED_PASSWORD environment variable."
+    :default (get env "BRISK_CACHED_PASSWORD")]
    ["-o" "--output FILENAME" "Output file"]
    ["-v" "--version" "Print version"]
    ])
@@ -96,7 +110,7 @@
   {:pod/namespaces
    [{:pod/ns "pod.brisk"
      :pod/vars [{:var/name "freeze-to-file"
-                 :var/fn #(count (nippy/freeze-to-file %1 %2))}
+                 :var/fn #(count (apply nippy/freeze-to-file %&))}
                 {:var/name "thaw-from-file"
                  :var/fn nippy/thaw-from-file}
                 {:var/name "freeze-to-string"
@@ -105,7 +119,7 @@
                  :var/fn nippy/thaw-from-string}]}]})
 
 (defn -main [& args]
-  (let [parsed (parse-opts args cli-options)
+  (let [parsed (parse-opts args (cli-options (System/getenv)))
         {:keys [options]} parsed]
     (if (System/getenv "BABASHKA_POD")
       (pod/launch pod-config)
